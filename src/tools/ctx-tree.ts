@@ -39,7 +39,7 @@ export function registerCtxTree(server: McpServer, cache: SessionCache): void {
         const tree = await buildTree(root, root, depth, ignoreSet, show_sizes);
         const compactOutput = renderCompact(tree, 0);
         const verboseOutput = renderTree(tree, '', true);
-        const savings = trackSavings(verboseOutput, compactOutput);
+        const savings = trackSavings(verboseOutput, compactOutput, 'ctx_tree');
 
         return {
           content: [{ type: 'text' as const, text: compactOutput + (savings ? `\n${savings}` : '') }],

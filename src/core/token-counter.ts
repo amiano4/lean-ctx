@@ -1,4 +1,5 @@
 import { encodingForModel } from 'js-tiktoken';
+import { recordToolCall } from './store.js';
 
 let encoder: ReturnType<typeof encodingForModel> | null = null;
 
@@ -41,10 +42,17 @@ export function formatSavings(savings: TokenSavings): string {
 let sessionSaved = 0;
 let sessionTotal = 0;
 
-export function trackSavings(original: string, compressed: string): string {
+export function trackSavings(
+  original: string,
+  compressed: string,
+  tool = 'unknown',
+  file?: string,
+  mode?: string
+): string {
   const s = tokenStats(original, compressed);
   sessionSaved += s.savedTokens;
   sessionTotal += s.originalTokens;
+  recordToolCall(tool, s.originalTokens, s.savedTokens, file, mode);
   return formatSavings(s);
 }
 

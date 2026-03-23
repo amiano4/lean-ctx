@@ -40,7 +40,7 @@ export function registerCtxShell(server: McpServer, cache: SessionCache): void {
           : combined;
 
         const result = compressor.compressShellOutput(command, truncated);
-        const tokSavings = trackSavings(truncated, result.output);
+        const tokSavings = trackSavings(truncated, result.output, 'ctx_shell');
 
         return {
           content: [

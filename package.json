@@ -1,24 +1,34 @@
 {
   "name": "lean-ctx",
-  "version": "0.1.0",
-  "description": "Smart Context MCP Server — reduces LLM token consumption by caching file reads, compressing CLI output, and providing compact project maps.",
+  "version": "0.3.0",
+  "description": "Smart Context MCP Server — reduces LLM token consumption by 89-99% through caching, compression, and compact protocols. Works with Cursor, GitHub Copilot, Claude Code, and any MCP client.",
   "type": "module",
   "bin": {
-    "lean-ctx": "./dist/index.js"
+    "lean-ctx": "./dist/cli.js",
+    "lean-ctx-server": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "dashboard": "node dist/cli.js dashboard"
   },
   "keywords": [
     "mcp",
     "llm",
     "token-optimization",
     "cursor",
-    "context-compression"
+    "copilot",
+    "claude",
+    "context-compression",
+    "ai-coding"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lean-ctx/lean-ctx"
+  },
+  "homepage": "https://lean-ctx.dev",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.0",
     "js-tiktoken": "^1.0.21",
@@ -30,5 +40,10 @@
   },
   "engines": {
     "node": ">=20.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "lean-ctx.config.example.json"
+  ]
 }

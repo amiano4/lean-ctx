@@ -102,7 +102,7 @@ function handleCacheHit(
 
   const summary = formatCacheHit(absPath, turnsAgo, lines);
   const verbose = `File already in context (read ${turnsAgo} turns ago, ${lines} lines, unchanged).`;
-  const savings = trackSavings(verbose, summary);
+  const savings = trackSavings(verbose, summary, 'ctx_read', absPath, 'cache_hit');
 
   if (query) {
     const filtered = filterByQuery(entry.content, query);
@@ -136,7 +136,7 @@ async function handleDiffMode(
 
   const formatted = formatDiff(diff);
   const fullFile = newContent;
-  const tokSavings = trackSavings(fullFile, formatted);
+  const tokSavings = trackSavings(fullFile, formatted, 'ctx_read', absPath, 'diff');
 
   return textResult(`${formatted}\n${diff.addedLines}+ ${diff.removedLines}- ${tokSavings}`);
 }
@@ -154,7 +154,7 @@ function handleSignaturesMode(
 
   const header = formatFileHeader(absPath, result.originalLines, 'new');
   const compactOutput = `${header}\n${compactSigs}`;
-  const tokSavings = trackSavings(content, compactOutput);
+  const tokSavings = trackSavings(content, compactOutput, 'ctx_read', absPath, 'signatures');
 
   return textResult(`${compactOutput}\n${tokSavings}`);
 }
