@@ -17,12 +17,12 @@ async fn main() -> Result<()> {
 
         match args[1].as_str() {
             "-c" => {
-                let command = args[2..].join(" ");
+                let command = shell_join(&args[2..]);
                 let code = shell::exec(&command);
                 std::process::exit(code);
             }
             "exec" => {
-                let command = args[2..].join(" ");
+                let command = shell_join(&args[2..]);
                 let code = shell::exec(&command);
                 std::process::exit(code);
             }
@@ -91,6 +91,20 @@ async fn main() -> Result<()> {
     service.waiting().await?;
 
     Ok(())
+}
+
+fn shell_join(args: &[String]) -> String {
+    args.iter().map(|a| shell_quote(a)).collect::<Vec<_>>().join(" ")
+}
+
+fn shell_quote(s: &str) -> String {
+    if s.is_empty() {
+        return "''".to_string();
+    }
+    if s.bytes().all(|b| b.is_ascii_alphanumeric() || b"-_./=:@,+%^".contains(&b)) {
+        return s.to_string();
+    }
+    format!("'{}'", s.replace('\'', "'\\''"))
 }
 
 fn print_help() {
