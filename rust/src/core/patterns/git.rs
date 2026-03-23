@@ -98,9 +98,18 @@ fn compress_status(output: &str) -> String {
 }
 
 fn compress_log(output: &str) -> String {
-    let mut entries = Vec::new();
+    let lines: Vec<&str> = output.lines().collect();
+    if lines.is_empty() {
+        return String::new();
+    }
 
-    for line in output.lines() {
+    let is_oneline = !lines[0].starts_with("commit ");
+    if is_oneline {
+        return lines.join("\n");
+    }
+
+    let mut entries = Vec::new();
+    for line in &lines {
         let trimmed = line.trim();
         if trimmed.starts_with("commit ") {
             let hash = &trimmed[7..14.min(trimmed.len())];
@@ -114,6 +123,10 @@ fn compress_log(output: &str) -> String {
                 *last = format!("{last} {trimmed}");
             }
         }
+    }
+
+    if entries.is_empty() {
+        return output.to_string();
     }
 
     entries.join("\n")
