@@ -12,6 +12,7 @@ import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
 import { existsSync } from "node:fs";
 import { readFile, stat } from "node:fs/promises";
+import { homedir } from "node:os";
 import { dirname, extname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -19,7 +20,7 @@ const HERE = typeof __dirname !== "undefined" ? __dirname : dirname(fileURLToPat
 const PACKAGE_ROOT = resolve(HERE, "..");
 const REPO_ROOT = resolve(PACKAGE_ROOT, "..");
 const FORK_BUILD_BIN = resolve(REPO_ROOT, "rust/target/release/lean-ctx");
-const USER_INSTALL_BIN = "/home/almario/.local/bin/lean-ctx";
+const USER_INSTALL_BIN = resolve(homedir(), ".local/bin/lean-ctx");
 
 const readSchema = Type.Object({
   path: Type.String({ description: "Path to the file to read (relative or absolute)" }),

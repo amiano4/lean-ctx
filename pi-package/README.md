@@ -12,13 +12,13 @@ Local Pi package for routing Pi shell commands through the forked `lean-ctx` rep
 ## Install locally in Pi
 
 ```bash
-pi install /home/almario/02_STUDIO/lean-ctx/pi-package
+pi install /path/to/lean-ctx/pi-package
 ```
 
 ## Build the forked binary
 
 ```bash
-cd /home/almario/02_STUDIO/lean-ctx/rust
+cd /path/to/lean-ctx/rust
 cargo build --release
 ```
 
